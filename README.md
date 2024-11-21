@@ -1,95 +1,93 @@
-Temperature Plateau Analysis Scripts
+# Temperature Data Analysis Script
 
-Overview:
+---
 
-This repository contains scripts for processing and analyzing temperature data. The scripts extract temperature plateaus from temperature.txt files, calculate statistical summaries for identified plateaus, 
-and optionally generate plots to visualize temperature profiles.
+## Overview
 
-Scripts:
+This script processes and analyzes temperature data from `.txt` files to identify temperature plateaus and summarize channel statistics. It outputs the results into an Excel file, with optional data visualization. The script is highly configurable, allowing users to customize plateau detection parameters, visualization options, and more.
 
-1. temp_plateau_analysis.py
-   
-Author: Tomasz Lasota
+---
 
-Version: 1.0
+## Features
 
-This script processes temperature data, identifies plateaus, calculates channel statistics, and exports results to an Excel file.
+1. **Data Processing**: Reads and processes temperature data from `.txt` files in the working directory.
+2. **Synchronization**: Aligns data using specified temperature thresholds.
+3. **Plateau Detection**: Identifies stable temperature plateaus based on user-defined tolerances.
+4. **Statistics Generation**: Calculates and summarizes channel-specific statistics (min, max, mean) for each plateau.
+5. **Excel Export**: Exports results into an Excel file (`summaryYYYY-MM-DD.xlsx`) with each file's data in separate sheets.
+6. **Data Visualization (Optional)**: Generates temperature profile plots with highlighted plateau regions.
 
-Key Features:
+---
 
-Reads and processes temperature data from .txt files.
-Synchronizes data timing for better comparisons.
-Automatically identifies stable temperature plateaus (or uses hardcoded indices).
-Exports summarized statistics to an Excel file (summaryYYYY-MM-DD.xlsx).
-Optionally plots temperature data with plateau regions highlighted.
+## Requirements
 
-User Configurable Settings:
+1. **Python Libraries**:
+   - `numpy`
+   - `pandas`
+   - `matplotlib`
+   - `openpyxl`
 
-plot_data: Enable/disable plotting of temperature profiles.
-find_plateaus: Enable/disable automated plateau detection.
-tolerance: Define stability threshold for plateau detection.
-Hardcoded indices can be used if automated detection isn't suitable for your data.
+2. **Custom Functions**:
+   Ensure the following modules are accessible in the working directory:
+   - `temp_analysis.utils.py`: Includes `find_distinct_plateaus` and `summerise_ch_stats` functions.
 
-Outputs:
+---
 
-Excel file with statistical summaries for all processed data.
-Optional plots for visual inspection of temperature plateaus.
+## Usage
 
-2. temp_analysis_utils.py
-   
-Author: Tomasz Lasota
+1. **Setup**:
+   - Clone or download this repository to your local machine.
+   - Place the `.txt` files containing temperature data in the working directory.
 
-Version: 1.0
+2. **Configuration**:
+   Open the script and modify the following variables as needed:
+   - `plot_data`: Set to `True` to enable plotting or `False` to disable.
+   - `find_plateaus`: Set to `True` to use automatic plateau detection or `False` to use hardcoded indices.
+   - `tolerance`: Adjust this parameter to define stability criteria for plateau detection.
+   - `num_points`: Specify the number of points to define a plateau (~30 seconds by default).
 
-A utility module containing functions for temperature analysis.
+3. **Run the Script**:
+   Execute the script in a Python environment. The script will:
+   - Process all `.txt` files in the current working directory.
+   - Identify plateaus and calculate statistics.
+   - Save the summarized data into an Excel file.
+   - Optionally generate plots for visual analysis.
 
-Functions:
+---
 
-summerise_ch_stats(df, channels, plateau)
+## Output
 
-Calculates min, mean, and max for specified temperature channels.
-Returns a DataFrame summarizing channel statistics.
+1. **Excel File**:
+   - **Name**: `summaryYYYY-MM-DD.xlsx`
+   - **Structure**:
+     - Each sheet corresponds to a processed `.txt` file.
+     - Includes channel statistics for each plateau.
 
-find_distinct_plateaus(df, tolerance, num_points, channels, plateau_threshold, step_size=200)
+2. **Plots (if enabled)**:
+   - Time-temperature profiles with plateau regions highlighted.
 
-Identifies distinct, stable temperature plateaus based on user-defined parameters.
-Returns a list of DataFrames, each representing a stable plateau.
+---
 
+## Customization
 
-Example Usage
+1. **Plateau Detection**:
+   - When `find_plateaus` is enabled, the script uses the `find_distinct_plateaus` function to dynamically detect plateaus.
+   - When disabled, the script uses hardcoded indices:
+     - **Start**: `[3650, 7150, 10550, 13750, 17250]`
+     - **End**: `[4999, 8499, 11899, 15099, 18599]`
 
-Input File Format
+---
 
-The scripts expect temperature.txt files with the following structure:
+## Notes
 
-Columns: ch1, ch2, ch3, ch4, time
+1. Ensure `.txt` files are formatted with columns: `ch1`, `ch2`, `ch3`, `ch4`, and `time`.
+2. If using the `find_plateaus` feature, verify the identified plateaus by enabling `plot_data`.
+3. For datasets with unstable plateaus, consider increasing the `tolerance` parameter.
 
-Header rows: Skipped during reading.
+---
 
-Temperature data: Starts at the 6th row.
+## Author
 
-How to Run
-
-Place your temperature.txt files in the working directory.
-Configure the script settings (plot_data, find_plateaus, etc.) as needed.
-
-Run the script:
-bash
-python temp_plateau_analysis.py  
-
-Results will be saved in an Excel file (summaryYYYY-MM-DD.xlsx) and optionally visualized in plots.
-
-Example Output
-Excel Summary: Contains the following for each plateau:
-
-Min, Mean, Max values for all channels.
-Each .txt file's data in separate sheets.
-
-Optional Plots:
-
-Time vs. Temperature with plateau regions highlighted.
-Notes
-Adjust tolerance and plateau_threshold based on data variability.
-Review highlighted plateaus in plots to ensure correct identification.
-
-
+**Tomasz Lasota**  
+Version: 1.1  
+Date: November 21, 2024
