@@ -25,7 +25,7 @@ Usage:
 Import the module in your main temp_plateau_analysis.py to access these functions.
 """
 
-def summerise_ch_stats(df: pd.DataFrame, channels:list, plataeu:str) -> pd.DataFrame:
+def sum_channel_stats(df: pd.DataFrame, channels:list, plataeu:str) -> pd.DataFrame:
     """
     Computes the minimum, mean, and maximum values for each channel (channles) in the given DataFrame.
 
@@ -114,3 +114,7 @@ def find_distinct_plateaus(df: pd.DataFrame,
             plateaus.append(plateau_df)
 
     return plateaus
+
+
+if __name__ == "__main__":
+    print("This module is not intended to be run directly.")
